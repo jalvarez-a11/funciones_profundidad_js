@@ -69,30 +69,6 @@ const data = [
             no sea un problema.`
   }
 ]
-
-let accumulator = ""
-for(const post of data){
-
-  accumulator += `
-  <article class="post">
-    <div class="post-header">
-      <img
-      src= "${post.avatar}"
-        class="icon-avatar"
-        alt="avatar icon"
-        width="75"
-      />
-      <h2>${post.titulo}</h2>
-    </div>
-    <div>
-      <p>
-        ${post.texto}
-      </p>
-    </div>
-  </article>
-  `
-};
-
 const section = document.querySelector("section");
 // innerHTML reemplaza todo el contenido HTML de ese elemento,
 // todos los hijos, por lo que si habia código HTML se perderá
@@ -105,22 +81,44 @@ section.innerHTML = accumulator;
 /* Nueva forma de recorrer todos los posts y agregar la funcionalidad
   de mostrar/ocultar
 */
-const posts = document.getElementsByClassName("post");
+function Post(titulo, avatar, texto) {
+  this.titulo = titulo;
+  this.avatar = avatar;
+  this.texto = texto;
+}
 
-for (const post of posts) {
-  post.classList.add("closed");
+Post.prototype.render = function() {
+  const html = `
+    <article class="post closed">
+      <img src="${this.avatar}" alt="${this.titulo}">
+      <h2>${this.titulo}</h2>
+      <p>${this.texto}</p>
+    </article>
+  `;
 
-  post.addEventListener("mouseover", function () {
-    // Removemos la clase de cerrado
-    post.classList.remove("closed");
-    // Agregamos la clase de abierto
-    post.classList.add("open");
-  });
+  return html;
+}
 
-  post.addEventListener("mouseout", function () {
-    // Agregamos la clase de cerrado
-    post.classList.add("closed");
-    // Quitamos la clase de abierto
-    post.classList.remove("open");
-  });
+export function crearPosts() {
+  const data = [
+    // ... (datos de los posts)
+  ];
+
+  const posts = [];
+
+  for (const postData of data) {
+    const post = new Post(postData.titulo, postData.avatar, postData.texto);
+    posts.push(post);
+  }
+
+  return posts;
+}
+
+export function renderPosts(posts) {
+  const section = document.querySelector('section');
+  section.innerHTML = '';
+
+  for (const post of posts) {
+    section.innerHTML += post.render();
+  }
 }

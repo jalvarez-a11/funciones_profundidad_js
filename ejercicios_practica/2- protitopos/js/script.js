@@ -47,22 +47,24 @@ const data = [
     }
   ]
 
-/*
-
-1 - Primero arme su prototipo "Post" el cual deberá recibir como parámetro
---> titulo
---> avatar
---> texto
-
-*/
 
 
+// 1 - Primero arme su prototipo "Post" el cual deberá recibir como parámetro
+function Post (titulo, avatar, texto) {
+  this.titulo= titulo;
+  this.avatar= avatar;
+  this.texto= texto;
+  const posts = [];
+
+for (const postObject of data) {
+  const post = new Post(postObject.titulo, postObject.avatar, postObject.texto);
+  posts.push(post);
+}
+}
 
 /*
 
 2 - Utilice un bucle para recorrer "data" y en cada iteración:
 --> Genere un objeto del prototipo con los datos del objeto de esa iteración
---> Almacene el objeto generado dentro de una lista "posts"
-
+--> Almacene el objeto generado dentro de una lista "posts"-->
 */
-
